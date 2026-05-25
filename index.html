@@ -6,7 +6,6 @@
     <title>Telegram Mini App</title>
     
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    <script src="https://woofbeginner.com/42/2e/e2/422ee26828f35f1ccf4737bef3783556.js"></script>
 
     <style>
         * {
@@ -16,59 +15,58 @@
             font-family: Arial, sans-serif;
         }
         body {
-            /* টেলিগ্রাম থিমের সাথে অটোমেটিক কালার ম্যাচ করার জন্য */
-            background-color: var(--tg-theme-bg-color, #f5f6f8);
-            color: var(--tg-theme-text-color, #333);
-            padding: 15px;
+            background-color: #17212b;
+            color: #ffffff;
             display: flex;
             flex-direction: column;
             align-items: center;
+            min-height: 100vh;
         }
         .app-container {
             width: 100%;
             max-width: 480px;
-            background: var(--tg-theme-bg-color, #ffffff);
-            min-height: 100vh;
             padding: 15px;
+            text-align: center;
         }
         .header-title {
-            color: var(--tg-theme-link-color, #0088cc);
-            font-size: 22px;
+            color: #64b5f6;
+            font-size: 24px;
             font-weight: bold;
-            margin-bottom: 5px;
+            margin-bottom: 10px;
+            margin-top: 10px;
         }
-        .sub-title {
-            font-size: 18px;
-            font-weight: bold;
-            margin-bottom: 20px;
+
+        /* ইংলিশে বড় এবং মোটা অক্ষরের নোটিশ স্টাইল */
+        .notice-text {
+            background: rgba(255, 152, 0, 0.15);
+            border: 1px solid #ff9800;
+            color: #ffb74d;
+            font-size: 16px; /* বড় সাইজ */
+            font-weight: 900; /* এক্সট্রা মোটা (Bold) */
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            line-height: 1.4;
+            text-transform: uppercase; /* সব বড় হাতের অক্ষর */
         }
         
+        /* পোস্ট স্টাইল */
         .post-list {
             display: flex;
             flex-direction: column;
-            gap: 20px;
-            margin-bottom: 30px;
+            gap: 15px;
         }
         .post-card {
-            background: var(--tg-theme-secondary-bg-color, #fff);
+            background: #24313f;
             border-radius: 12px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-            padding: 12px;
-            border: 1px solid rgba(0,0,0,0.05);
+            padding: 15px;
+            border: 1px solid #2b394a;
             cursor: pointer;
-        }
-        .post-thumb {
-            width: 100%;
-            height: 250px;
-            object-fit: cover;
-            border-radius: 8px;
-            display: block;
-            margin-bottom: 12px;
-            background-color: #eaeaea;
+            text-align: left;
         }
         .post-title {
-            font-size: 15px;
-            color: var(--tg-theme-link-color, #0077b5);
+            font-size: 16px;
+            color: #fff;
             font-weight: bold;
             margin-bottom: 10px;
         }
@@ -82,20 +80,19 @@
             border-radius: 8px;
             cursor: pointer;
             width: 100%;
-            text-align: center;
         }
         .btn-video {
             background-color: #4caf50 !important;
         }
 
-        /* অ্যাড ইন্টারফেস */
+        /* কাস্টম অ্যাড স্ক্রিন */
         .ad-modal-overlay {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: #17212b;
+            background: #182533 url('https://i.postimg.cc/85zXvF9p/telegram-bg.jpg') repeat;
             z-index: 100000;
             display: none;
             flex-direction: column;
@@ -103,177 +100,150 @@
             justify-content: space-between;
             padding: 20px;
         }
-        .ad-top-bar {
+        
+        .ad-top-container {
             width: 100%;
+            max-width: 400px;
             display: flex;
-            justify-content: space-between;
+            justify-content: center;
             align-items: center;
-            padding: 10px 0;
             position: relative;
+            margin-top: 20px;
         }
         .ad-timer {
-            background: #24313f;
-            color: #64b5f6;
-            padding: 6px 18px;
+            background: #24303f;
+            color: #fff;
+            padding: 6px 20px;
             border-radius: 20px;
             font-weight: bold;
-            font-size: 15px;
+            font-size: 14px;
             border: 1px solid #2b394a;
-            margin: 0 auto;
         }
         .ad-close-btn {
-            background: #ff3333;
-            color: white;
-            border: none;
-            width: 36px;
-            height: 36px;
+            background: #24303f;
+            color: #fff;
+            border: 1px solid #2b394a;
+            width: 35px;
+            height: 35px;
             border-radius: 50%;
-            font-size: 20px;
-            font-weight: bold;
+            font-size: 18px;
             cursor: pointer;
             display: none;
-            line-height: 34px;
+            line-height: 33px;
             text-align: center;
             position: absolute;
-            right: 10px;
-            top: 0;
+            right: 0;
         }
         
         .fake-chat-box {
-            background: #24313f;
-            border-radius: 12px;
+            background: rgba(36, 49, 63, 0.95);
+            border-radius: 15px;
             width: 100%;
             max-width: 400px;
             padding: 20px;
-            margin-top: 50px;
             color: white;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
             text-align: left;
+            border: 1px solid #2b394a;
+            margin-top: -50px;
         }
         .profile-info {
             font-weight: bold;
-            color: #64b5f6;
+            color: #fff;
             margin-bottom: 5px;
-            font-size: 16px;
+            font-size: 18px;
         }
         .amount-info {
-            font-size: 15px;
-            margin-bottom: 15px;
+            font-size: 16px;
             color: #b0bec5;
+            margin-bottom: 25px;
         }
         .monetag-tag {
-            font-size: 12px;
+            font-size: 13px;
             color: #78909c;
-            text-align: right;
-            margin-bottom: 15px;
+            text-align: center;
+            margin-bottom: 10px;
         }
         .btn-reward-link {
-            background: #2e7d32;
-            color: #a5d6a7;
-            padding: 12px;
-            border-radius: 8px;
+            background: #224c32;
+            color: #81c784;
+            padding: 14px;
+            border-radius: 25px;
             text-align: center;
-            text-decoration: none;
-            display: block;
             font-weight: bold;
-            margin-bottom: 10px;
-            border: 1px solid #1b5e20;
             cursor: pointer;
+            border: 1px solid #2e7d32;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        
+        .bottom-container {
+            width: 100%;
+            max-width: 400px;
+            margin-bottom: 30px;
         }
         .btn-continue {
-            background: #1e88e5;
+            background: #2b577e;
             color: white;
-            padding: 14px;
-            border-radius: 8px;
+            padding: 16px;
+            border-radius: 12px;
             text-align: center;
-            text-decoration: none;
-            display: block;
             font-weight: bold;
             font-size: 18px;
             cursor: pointer;
+            border: none;
+            width: 100%;
         }
     </style>
 </head>
 <body>
 
     <div class="app-container">
-        <div class="header-title">Mini App</div>
-        <div class="sub-title">Today Top Videos ⬇️ 👇</div>
+        <div class="header-title">Premium Video Link</div>
+        
+        <div class="notice-text">
+            ⚠️ NOTICE: AFTER OPENING THE AD, WAIT 15 SECONDS THERE, THEN PRESS THE PHONE'S BACK BUTTON TO RETURN AND UNLOCK THE VIDEO!
+        </div>
 
         <div class="post-list">
             <div class="post-card" onclick="openSecureAd(1)">
-                <img class="post-thumb" id="img-1" src="" alt="Post 78">
-                <div class="post-title">Post 78 ( Video + Pic )</div>
+                <div class="post-title">Ridhi Viral Video Link (HD)</div>
                 <button class="btn-ad" id="btn-1" onclick="event.stopPropagation(); openSecureAd(1);">Watch Ads (3/3)</button>
-            </div>
-            <div class="post-card" onclick="openSecureAd(2)">
-                <img class="post-thumb" id="img-2" src="" alt="Post 77">
-                <div class="post-title">Post 77 ( Video + Pic )</div>
-                <button class="btn-ad" id="btn-2" onclick="event.stopPropagation(); openSecureAd(2);">Watch Ads (3/3)</button>
-            </div>
-            <div class="post-card" onclick="openSecureAd(3)">
-                <img class="post-thumb" id="img-3" src="" alt="Post 76">
-                <div class="post-title">Post 76 ( Video + Pic )</div>
-                <button class="btn-ad" id="btn-3" onclick="event.stopPropagation(); openSecureAd(3);">Watch Ads (3/3)</button>
-            </div>
-            <div class="post-card" onclick="openSecureAd(4)">
-                <img class="post-thumb" id="img-4" src="" alt="Post 75">
-                <div class="post-title">Post 75 ( Video + Pic )</div>
-                <button class="btn-ad" id="btn-4" onclick="event.stopPropagation(); openSecureAd(4);">Watch Ads (3/3)</button>
-            </div>
-            <div class="post-card" onclick="openSecureAd(5)">
-                <img class="post-thumb" id="img-5" src="" alt="Post 74">
-                <div class="post-title">Post 74 ( Video + Pic )</div>
-                <button class="btn-ad" id="btn-5" onclick="event.stopPropagation(); openSecureAd(5);">Watch Ads (3/3)</button>
             </div>
         </div>
     </div>
 
     <div class="ad-modal-overlay" id="adModal">
-        <div class="ad-top-bar">
+        <div class="ad-top-container">
             <div class="ad-timer" id="adTimer">00:15</div>
             <button class="ad-close-btn" id="adCloseBtn" onclick="closeSecureAd()">×</button>
         </div>
         
         <div class="fake-chat-box">
-            <div class="profile-info">+880 1817 XXXXXX</div>
-            <div class="amount-info">৳ ৫০.০০</div>
+            <div class="profile-info">+880 1817 529364</div>
+            <div class="amount-info">৳ ৫০,০০</div>
             <div class="monetag-tag">ads by Monetag</div>
-            <div onclick="openAdLink()" class="btn-reward-link">
-                ✓ Click to get the reward!
+            <div onclick="redirectToAd()" class="btn-reward-link">
+                <span>✓</span> Click to get the reward!
             </div>
         </div>
 
-        <div style="width: 100%; max-width: 400px; margin-bottom: 40px;">
-            <div onclick="openAdLink()" class="btn-continue">
-                Continue
-            </div>
+        <div class="bottom-container">
+            <button onclick="redirectToAd()" class="btn-continue">Continue</button>
         </div>
     </div>
 
     <script>
-        // টেলিগ্রাম ওয়েব অ্যাপ ইনিশিয়ালাইজেশন
         const tg = window.Telegram.WebApp;
         tg.ready();
-        tg.expand(); // অ্যাপটি স্ক্রিন জুড়ে বড় করার জন্য
+        tg.expand();
 
-        const imagesData = {
-            img1: "https://i.postimg.cc/FKFV8KN0/IMG-20260525-152905-298.jpg",
-            img2: "https://i.postimg.cc/rwR9LHrG/IMG-20260525-152904-595.jpg",
-            img3: "https://i.postimg.cc/yd3JJq7D/IMG-20260525-152905-111.jpg",
-            img4: "https://i.postimg.cc/50z04wmw/IMG-20260525-152904-783.jpg",
-            img5: "https://i.postimg.cc/9f6mnDjD/IMG-20260525-152905-172.jpg"
-        };
-
-        document.getElementById('img-1').src = imagesData.img1;
-        document.getElementById('img-2').src = imagesData.img2;
-        document.getElementById('img-3').src = imagesData.img3;
-        document.getElementById('img-4').src = imagesData.img4;
-        document.getElementById('img-5').src = imagesData.img5;
-
-        let adCountTracker = { 1: 3, 2: 3, 3: 3, 4: 3, 5: 3 };
+        let adCountTracker = { 1: 3 };
         let currentPost = null;
         let adTimerInterval = null;
+        let adClickTime = 0; // বিজ্ঞাপন ক্লিকের সময় ট্র্যাক করার জন্য ভেরিয়েবল
         
         const monetizationLink = "https://woofbeginner.com/mb5232yg?key=478ed8ea2b236efd5caa539309a8b269";
         const finalTargetVideo = "https://terasharefile.com/s/1Z5chlLtRw8ItzAvM8eulGA";
@@ -283,17 +253,22 @@
             let currentCount = adCountTracker[postId];
 
             if (currentCount <= 0) {
-                // টেলিগ্রামের অফিশিয়াল মেথড দিয়ে এক্সটার্নাল ভিডিও লিংক ওপেন
                 tg.openLink(finalTargetVideo);
                 return;
             }
 
-            // টেলিগ্রামের অফিশিয়াল মেথড দিয়ে বিজ্ঞাপন লিংক ওপেন
-            tg.openLink(monetizationLink);
             startInSiteTimer();
+            
+            // বিজ্ঞাপন ওপেন করার সময়টি মিলিসেকেন্ডে সেভ করে রাখা হচ্ছে
+            adClickTime = new Date().getTime();
+            
+            setTimeout(() => {
+                tg.openLink(monetizationLink);
+            }, 500);
         }
 
-        function openAdLink() {
+        function redirectToAd() {
+            adClickTime = new Date().getTime(); // কন্টিনিউ বাটনে চাপ দিলেও টাইম আপডেট হবে
             tg.openLink(monetizationLink);
         }
 
@@ -303,6 +278,7 @@
             const closeBtn = document.getElementById('adCloseBtn');
             
             modal.style.display = 'flex';
+            timerDisplay.style.display = 'block';
             closeBtn.style.display = 'none';
             
             let secondsRemaining = 15;
@@ -314,7 +290,8 @@
 
                 if (secondsRemaining <= 0) {
                     clearInterval(adTimerInterval);
-                    closeBtn.style.display = 'block';
+                    timerDisplay.style.display = 'none';
+                    closeBtn.style.display = 'block'; 
                 }
             }, 1000);
         }
@@ -324,14 +301,25 @@
             document.getElementById('adModal').style.display = 'none';
 
             if (currentPost) {
-                if (adCountTracker[currentPost] > 0) {
-                    adCountTracker[currentPost]--;
+                let currentTime = new Date().getTime();
+                // ইউজার কত সেকেন্ড বাইরে ছিল তা হিসাব করা হচ্ছে
+                let secondsSpentOutside = (currentTime - adClickTime) / 1000;
+
+                // ইউজার যদি ১৫ সেকেন্ড বা তার বেশি সময় বাইরে কাটিয়ে ফিরে আসে, তবেই কাউন্ট কমবে
+                if (secondsSpentOutside >= 15) {
+                    if (adCountTracker[currentPost] > 0) {
+                        adCountTracker[currentPost]--;
+                    }
+                } else {
+                    // ১৫ সেকেন্ডের কম থাকলে টেলিগ্রামে এলার্ট পপ-আপ দেখাবে
+                    tg.showAlert("Please wait at least 15 seconds on the ad page to unlock!");
                 }
 
                 let remaining = adCountTracker[currentPost];
                 let actionButton = document.getElementById(`btn-${currentPost}`);
                 
                 if (remaining > 0) {
+                    // ৩ টি বিজ্ঞপ্তির মধ্যে বাকি কয়টি দেখতে হবে তা ডাইনামিকালি সেট হবে (যেমন: 3/2, 3/1)
                     actionButton.innerText = `Watch Ads (3/${remaining})`;
                 } else {
                     actionButton.innerText = "Watch Video";
